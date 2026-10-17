@@ -1,0 +1,30 @@
+{
+  "name": "hireflow-mern",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace backend\" \"npm run dev --workspace frontend\"",
+    "seed": "npm run seed --workspace backend",
+    "check": "node scripts/check-project.mjs",
+    "db:indexes": "npm run db:indexes --workspace backend",
+    "test": "npm run test --workspace backend",
+    "check:backend": "npm run check --workspace backend",
+    "build": "npm run build --workspace frontend",
+    "lint": "npm run check",
+    "doctor:db": "npm run doctor:db --workspace backend",
+    "db:reset:dev": "npm run db:reset:dev --workspace backend",
+    "dry-run": "node scripts/dry-run.mjs",
+    "smoke": "node scripts/smoke-local.mjs",
+    "postinstall": "npm run dry-run"
+  },
+  "devDependencies": {
+    "concurrently": "9.2.1"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "version": "3.0.0"
+}

@@ -1,0 +1,15 @@
+import { Router } from 'express';
+import { requireAuth, requireRole } from '../middleware/auth.js';
+import { validate } from '../middleware/validate.js';
+import { profileSchema } from '../validators/profile.js';
+import { get, update, resume, avatar, removeAvatar, removeResume } from '../controllers/profile.controller.js';
+import { resumeUpload, imageUpload } from '../middleware/upload.js';
+const r = Router();
+r.use(requireAuth);
+r.get('/', get);
+r.patch('/', validate(profileSchema), update);
+r.post('/avatar', imageUpload.single('avatar'), avatar);
+r.delete('/avatar', removeAvatar);
+r.post('/resume', requireRole('JOB_SEEKER'), resumeUpload.single('resume'), resume);
+r.delete('/resume', requireRole('JOB_SEEKER'), removeResume);
+export default r;

@@ -1,0 +1,9 @@
+node_modules
+.git
+.github
+.env
+*.log
+frontend/dist
+coverage
+backend/uploads/resumes
+backend/uploads/images

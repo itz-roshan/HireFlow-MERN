@@ -1,0 +1,1842 @@
+You are a senior MERN full-stack architect, product designer, database engineer, QA engineer, DevOps engineer, and application security engineer.
+
+Build a COMPLETE production-style recruitment platform named HIRE FLOW / HireFlow from absolute scratch.
+
+The result must feel like a real recruitment SaaS product, not a college CRUD demo, not a static UI, and not a collection of disconnected mock screens.
+
+IMPORTANT:
+Do not call the project complete until the application has been installed, started, seeded, tested, built and verified from a clean checkout.
+
+====================================================
+1. CORE PRODUCT
+====================================================
+
+HireFlow connects:
+
+1. Job Seekers
+2. Recruiters / Hiring Teams
+3. Administrators
+
+The complete product journey must work:
+
+Candidate:
+Register
+→ Complete Profile
+→ Upload Photo
+→ Upload Resume
+→ Search Jobs
+→ Save Job
+→ Apply
+→ Track Application
+→ Receive Notifications
+→ Attend Interview
+→ Message Recruiter
+
+Recruiter:
+Register
+→ Create Company
+→ Complete Company Profile
+→ Create Job
+→ Save Draft
+→ Publish Job
+→ Receive Applications
+→ Review Candidates
+→ Shortlist / Reject
+→ Schedule Interview
+→ Message Candidate
+→ Make Offer
+→ Mark Hired
+
+Admin:
+Login
+→ Dashboard
+→ Users
+→ Recruiters
+→ Companies
+→ Jobs
+→ Reports
+→ Moderation
+→ Audit Logs
+
+====================================================
+2. TECHNOLOGY
+====================================================
+
+Use MERN:
+
+Frontend:
+- React
+- Vite
+- TypeScript preferred
+- React Router
+- Axios
+- React Hook Form
+- Zod
+- TanStack Query where useful
+- Lucide React
+- Recharts
+- Motion or equivalent lightweight animation library
+
+Backend:
+- Node.js
+- Express.js
+- TypeScript preferred
+- MongoDB
+- Mongoose
+- Zod
+- JWT/session authentication
+- bcrypt or Argon2
+- Socket.IO
+- Multer for development uploads
+- structured logging
+
+Testing:
+- Vitest
+- React Testing Library
+- Supertest or equivalent API testing
+- Playwright or equivalent browser E2E testing
+
+Tooling:
+- ESLint
+- Prettier
+- npm workspaces or clean monorepo structure
+- Docker Compose for optional local MongoDB
+- GitHub Actions CI
+
+====================================================
+3. VERSION SAFETY
+====================================================
+
+Use an LTS Node version.
+
+Prefer Node 24 LTS or Node 22 LTS.
+
+Create:
+.nvmrc
+
+Commit:
+package-lock.json
+
+Do not use an uncontrolled collection of floating latest versions.
+
+Pin compatible dependency versions in package.json.
+
+Before implementation, check dependency compatibility.
+
+Do NOT use legacy Mongoose pre-hook callback signatures.
+
+Use promise/async middleware compatible with the installed Mongoose version.
+
+====================================================
+4. NON-NEGOTIABLE QUALITY RULE
+====================================================
+
+Never hide an error.
+
+Never show only:
+
+"Validation failed"
+
+Instead show the exact reason.
+
+Examples:
+
+"Full name must be at least 2 characters."
+
+"Please enter a valid email address."
+
+"Password must contain at least 8 characters."
+
+"Passwords do not match."
+
+"Please select whether you are looking for work or hiring."
+
+"Resume must be a PDF smaller than 5 MB."
+
+"MongoDB is not reachable. Start MongoDB or check MONGODB_URI."
+
+"Unable to save profile. Please try again."
+
+All API errors must preserve useful information.
+
+====================================================
+5. ERROR RESPONSE CONTRACT
+====================================================
+
+Use one consistent format:
+
+{
+  "success": false,
+  "message": "Human-readable message",
+  "code": "STABLE_ERROR_CODE",
+  "fieldErrors": {
+    "email": "Please enter a valid email address."
+  }
+}
+
+Frontend must map fieldErrors to the correct form fields.
+
+Do not display raw database errors.
+
+Do not display stack traces to users.
+
+Do not show undefined/null/technical error objects in UI.
+
+====================================================
+6. PROJECT ARCHITECTURE
+====================================================
+
+DO NOT put everything into one components directory.
+
+Organize by domain.
+
+Frontend:
+
+src/
+  app/
+  api/
+  components/
+    ui/
+    layout/
+  features/
+    auth/
+      components/
+      hooks/
+      api/
+      schemas/
+      constants/
+      types/
+      tests/
+    users/
+    profile/
+    jobs/
+    companies/
+    applications/
+    interviews/
+    notifications/
+    messages/
+    recruiter/
+    admin/
+    reports/
+  pages/
+  routes/
+  hooks/
+  lib/
+  utils/
+  styles/
+
+Backend:
+
+src/
+  config/
+  middleware/
+  modules/
+    auth/
+      controllers/
+      routes/
+      services/
+      validators/
+      tests/
+    users/
+    profiles/
+    companies/
+    jobs/
+    applications/
+    interviews/
+    notifications/
+    messages/
+    reports/
+    admin/
+  shared/
+    errors/
+    utils/
+    logger/
+  app.ts
+  server.ts
+
+Backend flow:
+
+Route
+→ Controller
+→ Service
+→ Data/Model layer
+→ MongoDB
+
+Controllers must remain thin.
+
+Business logic belongs in services.
+
+====================================================
+7. DESIGN SYSTEM
+====================================================
+
+Create a completely new visual identity.
+
+Do NOT copy LinkedIn, Indeed, Naukri or another known platform.
+
+Design direction:
+
+- premium recruitment SaaS
+- editorial + modern dashboard
+- soft aurora gradient
+- deep ink/navy typography
+- violet/cobalt primary brand
+- warm accent used carefully
+- soft shadows
+- glass/blur accents where appropriate
+- large typography
+- spacious layout
+- high-quality cards
+- subtle background grid/noise
+- polished form controls
+- professional tables
+- clean data visualization
+
+Brand:
+HireFlow
+
+Tagline:
+Connect. Hire. Grow.
+
+====================================================
+8. TYPOGRAPHY
+====================================================
+
+Use one primary UI font consistently.
+
+Prefer:
+Inter
+or
+Manrope
+
+Define a consistent hierarchy:
+
+12
+14
+16
+18
+20
+24
+32
+40
+48
+64
+
+Rules:
+- consistent line-height
+- consistent font-weight
+- clear heading hierarchy
+- readable paragraph width
+- no random font sizing
+- no oversized text that breaks mobile layout
+
+====================================================
+9. ANIMATION
+====================================================
+
+Animations should feel premium and useful.
+
+Implement:
+- page fade/slide entrance
+- card hover lift
+- button press feedback
+- subtle gradient movement
+- notification pulse
+- profile completion animation
+- progress bar animation
+- skeleton loading
+- dropdown transition
+- modal transition
+- success check animation
+
+Rules:
+- short duration
+- no distracting infinite animation
+- never block forms or navigation
+- respect prefers-reduced-motion
+
+====================================================
+10. RESPONSIVE DESIGN
+====================================================
+
+The entire application must adapt correctly to:
+
+360x800
+390x844
+768x1024
+1024x768
+1280x800
+1440x900
+1920x1080
+
+Test:
+- phone
+- tablet
+- laptop
+- desktop
+
+No accidental horizontal scrolling.
+
+Tables may use intentional horizontal scrolling.
+
+Cards, forms, dashboards and navigation must reflow.
+
+Mobile navigation should become a drawer/menu.
+
+====================================================
+11. GLOBAL UI STATES
+====================================================
+
+Every asynchronous action must support:
+
+idle
+loading
+success
+error
+empty
+
+Buttons must:
+- prevent double submit
+- show loading state
+- become disabled while processing
+- restore state after completion/error
+
+Every list page needs:
+- skeleton
+- empty state
+- error state
+- retry action
+
+====================================================
+12. AUTHENTICATION
+====================================================
+
+Roles:
+
+JOB_SEEKER
+RECRUITER
+ADMIN
+
+Implement:
+
+Register
+Login
+Logout
+Refresh/session handling
+Forgot password
+Reset password
+Change password
+Protected routes
+Role authorization
+Account status
+
+Use secure authentication strategy.
+
+Hash passwords.
+
+Normalize email addresses.
+
+Prevent:
+- duplicate account creation
+- brute-force abuse
+- unauthorized role access
+- blocked user access using stale sessions
+
+Server authorization is mandatory.
+
+Do NOT rely only on frontend route guards.
+
+====================================================
+13. REGISTRATION
+====================================================
+
+Candidate registration:
+
+Full Name
+Email
+Password
+Confirm Password
+Role
+
+Recruiter registration:
+
+Full Name
+Email
+Password
+Confirm Password
+Recruiter role
+
+After role selection, clearly explain:
+
+"I'm looking for work"
+
+or
+
+"I'm hiring talent"
+
+Requirements must be visible before submission.
+
+Inline validation should happen:
+- on blur
+- on submit
+- after server response
+
+The form must retain entered values after validation failure.
+
+Focus the first invalid field.
+
+====================================================
+14. JOB SEEKER PROFILE
+====================================================
+
+Candidate profile must include:
+
+Profile photo
+Full name
+Headline
+Bio
+Phone
+Location
+Skills
+Education
+Experience
+Portfolio
+GitHub
+LinkedIn
+
+Create profile completion percentage.
+
+Example:
+
+72% complete
+
+Missing:
+- Resume
+- Education
+- Portfolio
+
+Profile updates must actually persist in MongoDB.
+
+Refresh page:
+the same saved values must appear.
+
+====================================================
+15. PROFILE PHOTO
+====================================================
+
+Allow:
+
+JPG
+JPEG
+PNG
+WebP
+
+Implement:
+
+Choose image
+Preview
+Upload
+Replace
+Remove
+
+Validate:
+- extension
+- MIME type
+- real file content/signature
+- file size
+- authentication
+
+Use a generated storage filename.
+
+Never trust the client filename.
+
+Show:
+- preview
+- upload loading
+- success message
+- useful error message
+
+Development:
+local upload storage
+
+Production:
+S3/Cloudinary adapter
+
+====================================================
+16. RESUME SYSTEM
+====================================================
+
+Resume:
+PDF only.
+
+Maximum:
+5 MB by default.
+
+Validate:
+- extension
+- MIME
+- magic bytes/content signature
+- file size
+- authenticated ownership
+
+Allow:
+Upload
+Replace
+Delete
+View/download
+
+Resume download must be authorized.
+
+Store metadata in MongoDB.
+
+Do not store the binary PDF directly inside MongoDB unless intentionally designed for it.
+
+Development:
+local storage
+
+Production:
+S3/Cloudinary/object storage adapter
+
+When candidate applies:
+the application must preserve the correct resume reference/snapshot so later resume replacement does not silently change the old application.
+
+====================================================
+17. JOB SEARCH
+====================================================
+
+Job search must support:
+
+Keyword
+Location
+Category
+Employment Type
+Work Mode
+Experience
+Salary Range
+Skills
+Sort
+Pagination
+
+Use URL query parameters.
+
+Example:
+
+/jobs?search=react&location=Delhi&page=2
+
+Provide:
+- search button
+- clear filters
+- result count
+- pagination
+- no-results state
+
+Avoid loading thousands of jobs at once.
+
+====================================================
+18. JOB DETAILS
+====================================================
+
+Display:
+
+Title
+Company
+Company logo
+Location
+Salary
+Work mode
+Employment type
+Experience
+Posted date
+Deadline
+Description
+Responsibilities
+Requirements
+Skills
+Benefits
+Company overview
+
+Actions:
+
+Apply
+Save/Unsave
+Share
+Report
+
+Buttons must always work.
+
+====================================================
+19. JOB LIFECYCLE
+====================================================
+
+Job states:
+
+DRAFT
+PUBLISHED
+PAUSED
+CLOSED
+ARCHIVED
+
+Recruiter actions:
+
+Create
+Edit
+Save Draft
+Preview
+Publish
+Pause
+Resume
+Close
+Archive
+Duplicate
+
+Do not hard-delete jobs with meaningful application history.
+
+====================================================
+20. APPLICATION SYSTEM
+====================================================
+
+Application form:
+
+Resume
+Cover Letter
+Expected Salary
+Notice Period
+Additional Questions
+
+Rules:
+
+- only authenticated candidates can apply
+- recruiter cannot apply as candidate
+- admin cannot apply
+- job must exist
+- job must be published
+- deadline must not be passed
+- application must be open
+- duplicate candidate+job application must be blocked
+
+Use a unique compound database constraint/index where appropriate.
+
+====================================================
+21. APPLICATION STATUS
+====================================================
+
+Statuses:
+
+APPLIED
+UNDER_REVIEW
+SHORTLISTED
+INTERVIEW
+OFFERED
+HIRED
+REJECTED
+WITHDRAWN
+
+Every change must create a history record.
+
+History:
+
+previous status
+new status
+changed by
+timestamp
+optional note
+
+Candidate UI:
+show visual timeline.
+
+Recruiter UI:
+show pipeline.
+
+====================================================
+22. RECRUITER WORKSPACE
+====================================================
+
+Recruiter dashboard:
+
+Active Jobs
+Draft Jobs
+Closed Jobs
+Applications
+Shortlisted
+Interviews
+Recent Notifications
+Messages
+
+Create clear KPI cards.
+
+Charts:
+- applications over time
+- applicant funnel
+- jobs performance
+
+All values should come from database data.
+
+Avoid fake metrics unless explicitly labeled DEMO.
+
+====================================================
+23. COMPANY MODULE
+====================================================
+
+Recruiter creates or joins company.
+
+Company fields:
+
+Name
+Logo
+Website
+Industry
+Location
+Description
+Company Size
+
+Company states:
+
+PENDING
+VERIFIED
+SUSPENDED
+
+Admin manages verification.
+
+====================================================
+24. APPLICANT MANAGEMENT
+====================================================
+
+Recruiter must be able to:
+
+View applicants
+Search
+Filter
+Sort
+Open candidate profile
+View authorized resume
+Update status
+Add private notes
+Schedule interview
+Send message
+
+Private recruiter notes must never be visible to candidate.
+
+====================================================
+25. INTERVIEW SYSTEM
+====================================================
+
+Fields:
+
+Candidate
+Application
+Job
+Recruiter
+Date
+Time
+Timezone
+Duration
+Interview Type
+Meeting URL
+Notes
+Status
+
+Statuses:
+
+SCHEDULED
+CONFIRMED
+COMPLETED
+CANCELLED
+
+Rules:
+- no past time
+- valid duration
+- timezone included
+- reject conflicting active interviews
+- notify candidate
+- notify recruiter
+- reschedule history
+- cancellation history
+
+====================================================
+26. NOTIFICATION CENTER
+====================================================
+
+Create a REAL notification system.
+
+Header must contain:
+
+Bell icon
+
+Unread badge
+
+Notification dropdown/page
+
+Features:
+
+Unread count
+Recent notifications
+Mark one read
+Mark all read
+Open related page
+Persist notifications in MongoDB
+
+Types:
+
+APPLICATION_SUBMITTED
+APPLICATION_STATUS_CHANGED
+JOB_RECOMMENDATION
+INTERVIEW_SCHEDULED
+INTERVIEW_RESCHEDULED
+INTERVIEW_CANCELLED
+NEW_MESSAGE
+COMPANY_APPROVED
+JOB_APPROVED
+REPORT_RESOLVED
+
+When a recruiter changes candidate status:
+candidate receives notification.
+
+When candidate applies:
+recruiter receives notification.
+
+When interview is scheduled:
+candidate receives notification.
+
+When message arrives:
+receiver receives notification.
+
+Use Socket.IO for real-time events.
+
+Reconnect safely.
+
+Prevent duplicate notification creation.
+
+Refresh browser:
+unread count must remain correct.
+
+====================================================
+27. MESSAGING
+====================================================
+
+Socket.IO.
+
+Features:
+
+Conversations
+Members
+Messages
+Typing
+Presence
+Read status
+Unread count
+Timestamps
+
+Authorization:
+a user can only read conversations they belong to.
+
+Do not expose conversations by changing an ID in the URL.
+
+Store messages in MongoDB.
+
+====================================================
+28. REPORTING / MODERATION
+====================================================
+
+Candidate can report:
+
+Job
+Recruiter
+Company
+Message
+
+Fields:
+
+Type
+Reason
+Description
+Reporter
+Target
+Status
+Created At
+Updated At
+
+Admin:
+Review
+Assign
+Resolve
+Dismiss
+Add private notes
+
+====================================================
+29. ADMIN DASHBOARD
+====================================================
+
+Admin dashboard:
+
+Users
+Recruiters
+Companies
+Jobs
+Applications
+Reports
+Interviews
+
+Analytics:
+- user growth
+- job growth
+- application trend
+- report trend
+
+Admin actions:
+- block/unblock user
+- verify/suspend recruiter/company
+- moderate job
+- review report
+- manage categories
+- manage skills
+- view audit logs
+
+Protect all admin APIs server-side.
+
+====================================================
+30. AUDIT LOGS
+====================================================
+
+Record sensitive actions:
+
+actor
+action
+entity
+entityId
+metadata
+timestamp
+
+Examples:
+
+USER_BLOCKED
+USER_UNBLOCKED
+COMPANY_VERIFIED
+COMPANY_SUSPENDED
+JOB_REMOVED
+REPORT_RESOLVED
+ROLE_CHANGED
+
+Audit logs should be append-oriented.
+
+====================================================
+31. DATABASE DESIGN
+====================================================
+
+MongoDB collections:
+
+users
+profiles
+companies
+companyMembers
+jobs
+applications
+applicationHistories
+savedJobs
+resumes
+interviews
+notifications
+conversations
+messages
+reports
+auditLogs
+sessions/refreshTokens
+
+Use:
+- timestamps
+- controlled enum-like values
+- required fields
+- length limits
+- indexes
+- unique compound indexes
+- references
+- appropriate query projections
+- transactions where truly necessary
+
+Important uniqueness:
+user email
+company ownership rules
+candidate+job application
+user+saved job
+conversation membership/business rule
+
+Create an explicit database index command.
+
+Create database health endpoint.
+
+====================================================
+32. DATABASE STARTUP MUST BE EASY
+====================================================
+
+Docker must be OPTIONAL.
+
+Support three modes:
+
+A. Docker MongoDB
+B. Local MongoDB Community
+C. MongoDB Atlas
+
+Provide:
+
+.env.example
+.env.local.example where useful
+
+Commands:
+
+npm run doctor:db
+npm run seed
+npm run db:indexes
+npm run db:reset:dev
+
+Database doctor must print:
+
+MongoDB connection: PASS
+MongoDB connection: FAIL
+
+If failed:
+
+"MongoDB is not reachable. Start MongoDB or check MONGODB_URI."
+
+Never print passwords.
+
+====================================================
+33. HEALTH CHECKS
+====================================================
+
+Create:
+
+GET /api/health
+GET /api/health/db
+
+Example:
+
+{
+  "success": true,
+  "service": "HireFlow API"
+}
+
+DB check should report database state.
+
+====================================================
+34. FILE UPLOAD SECURITY
+====================================================
+
+Use allowlists.
+
+Images:
+jpg
+jpeg
+png
+webp
+
+Resume:
+pdf
+
+Validate:
+- extension
+- MIME type
+- file signature
+- file size
+- authenticated owner
+- server-generated filename
+- safe storage
+
+Never allow client to choose server filesystem path.
+
+Never use original user filename as the final filesystem path.
+
+====================================================
+35. SECURITY
+====================================================
+
+Implement:
+
+Password hashing
+Secure auth/session cookies
+Helmet
+CORS allowlist
+Rate limiting
+Request body limits
+Zod validation
+Authorization middleware
+Upload validation
+Audit logging
+Environment secrets
+Safe error responses
+
+No secrets in source code.
+
+No credentials in frontend source.
+
+No .env committed.
+
+====================================================
+36. UX FOR FAILURES
+====================================================
+
+If backend is offline:
+
+Show:
+"Unable to connect to HireFlow server."
+
+"Make sure the backend is running on the configured API URL."
+
+With:
+Retry
+
+If database is offline:
+
+Show:
+"HireFlow database is unavailable."
+
+"Start MongoDB or check MONGODB_URI."
+
+If upload fails:
+explain exact rule.
+
+If login fails:
+"Email or password is incorrect."
+
+Do not expose whether an account exists where inappropriate.
+
+====================================================
+37. BUTTON BEHAVIOUR
+====================================================
+
+Every button must have a deliberate state.
+
+Default
+Hover
+Focus
+Pressed
+Disabled
+Loading
+Success
+Error
+
+Examples:
+
+Save Changes
+→ Saving...
+→ Saved
+
+Apply Now
+→ Applying...
+→ Application Submitted
+
+Upload Resume
+→ Uploading...
+→ Resume Updated
+
+Do NOT use dead buttons.
+
+Do NOT use alert() / confirm() / prompt() for production UX.
+
+Use custom dialogs and toast notifications.
+
+====================================================
+38. ACCESSIBILITY
+====================================================
+
+Use:
+- semantic HTML
+- labels
+- keyboard navigation
+- visible focus
+- accessible modals
+- descriptive icon labels
+- reasonable contrast
+- screen-reader friendly status messages
+- reduced motion
+
+====================================================
+39. PERFORMANCE
+====================================================
+
+Use:
+- pagination
+- indexes
+- efficient queries
+- debounced search
+- lazy-loaded pages
+- image optimization
+- caching where useful
+- selective document retrieval
+
+Do not introduce Redis/Elasticsearch/etc. unless needed.
+
+====================================================
+40. REPOSITORY / GITHUB
+====================================================
+
+Create:
+
+README.md
+LICENSE
+SECURITY.md
+CONTRIBUTING.md
+.env.example
+.gitignore
+.nvmrc
+.github/workflows/ci.yml
+docs/
+
+docs/
+  architecture.md
+  setup.md
+  database.md
+  api.md
+  user-flows.md
+  testing.md
+  deployment.md
+  troubleshooting.md
+
+Never commit:
+
+.env
+node_modules
+dist
+build
+personal uploads
+database dumps
+private resumes
+API keys
+cloud secrets
+editor junk
+
+====================================================
+41. README MUST BE HUMAN-FRIENDLY
+====================================================
+
+README must explain:
+
+What HireFlow is
+Tech stack
+Features
+Folder structure
+Requirements
+MongoDB options
+Environment setup
+Install commands
+Database setup
+Seed commands
+Run commands
+Demo accounts
+Troubleshooting
+GitHub upload
+Deployment
+Security notes
+
+Do not assume the reader already knows MERN.
+
+====================================================
+42. SEED DATA
+====================================================
+
+Create realistic development seed data:
+
+1 admin
+1 recruiter
+1 company
+1 candidate
+5–10 jobs
+sample application
+sample notification
+sample interview
+sample conversation
+sample message
+
+Use fake development identities.
+
+Do not use real personal data.
+
+====================================================
+43. FRONTEND MODULE DESIGN
+====================================================
+
+Create reusable modules:
+
+auth
+jobs
+profile
+resume
+applications
+interviews
+notifications
+messages
+companies
+recruiter
+admin
+reports
+
+Each module should own its:
+components
+hooks
+API functions
+schemas
+constants
+types
+tests
+
+====================================================
+44. PAGES
+====================================================
+
+Public:
+
+Home
+Jobs
+Job Details
+Companies
+Company Details
+About
+Contact
+Login
+Register
+Forgot Password
+Reset Password
+
+Candidate:
+
+Dashboard
+Profile
+Saved Jobs
+Applications
+Application Details
+Interviews
+Notifications
+Messages
+Settings
+
+Recruiter:
+
+Dashboard
+Company
+Jobs
+Create Job
+Edit Job
+Applicants
+Applicant Details
+Interviews
+Messages
+Notifications
+Analytics
+Settings
+
+Admin:
+
+Dashboard
+Users
+Recruiters
+Companies
+Jobs
+Applications
+Reports
+Categories
+Skills
+Audit Logs
+Settings
+
+====================================================
+45. SEARCH UX
+====================================================
+
+Search must:
+- remember query in URL
+- debounce where appropriate
+- show result count
+- support clear filters
+- show active filter chips
+- handle zero results elegantly
+- preserve filters during pagination
+
+====================================================
+46. CANDIDATE EXPERIENCE
+====================================================
+
+Candidate dashboard should clearly answer:
+
+What should I do next?
+
+Examples:
+
+Complete profile
+Upload resume
+Explore jobs
+Continue application
+Upcoming interview
+Unread notifications
+
+Use helpful cards, not only numeric statistics.
+
+====================================================
+47. RECRUITER EXPERIENCE
+====================================================
+
+Recruiter dashboard should clearly answer:
+
+What needs my attention?
+
+Examples:
+
+12 new applicants
+3 candidates shortlisted
+2 interviews today
+4 jobs closing soon
+1 report needs review
+
+====================================================
+48. ADMIN EXPERIENCE
+====================================================
+
+Admin dashboard should clearly answer:
+
+What changed?
+
+Examples:
+
+New users
+New jobs
+Pending verification
+New reports
+Recent audit events
+Platform health
+
+====================================================
+49. FINAL AUTOMATED TESTS
+====================================================
+
+Test:
+
+Registration
+Login
+Logout
+Authorization
+Profile CRUD
+Profile photo upload
+Resume upload
+Resume replacement
+Resume deletion
+Job CRUD
+Search
+Filter
+Pagination
+Save job
+Unsave job
+Apply
+Duplicate application
+Status update
+Status history
+Interview scheduling
+Conflict detection
+Notifications
+Messages
+Reports
+Admin moderation
+Audit logs
+
+====================================================
+50. END-TO-END TEST FLOW
+====================================================
+
+Test exactly:
+
+1. Register candidate
+2. Candidate login
+3. Candidate profile update
+4. Candidate photo upload
+5. Candidate resume upload
+6. Search job
+7. Save job
+8. Apply
+9. Recruiter login
+10. Recruiter sees application
+11. Recruiter changes status
+12. Candidate receives notification
+13. Recruiter schedules interview
+14. Candidate sees interview
+15. Candidate sends message
+16. Recruiter receives message
+17. Candidate reports content
+18. Admin reviews report
+19. Admin resolves report
+20. Audit log contains the admin action
+
+====================================================
+51. TWO-PASS QA
+====================================================
+
+PASS 1 — FUNCTIONAL QA
+
+From a clean checkout:
+
+npm install
+
+Start database.
+
+Run:
+
+npm run doctor:db
+
+Run:
+
+npm run db:indexes
+
+Run:
+
+npm run seed
+
+Start backend.
+
+Start frontend.
+
+Run all automated tests.
+
+Run API smoke tests.
+
+Run browser smoke tests.
+
+Verify data persists after page refresh.
+
+PASS 1 must fail if any major workflow fails.
+
+----------------------------------------------------
+
+PASS 2 — UX / REGRESSION QA
+
+Test:
+
+every route
+every form
+every button
+every dropdown
+every modal
+every upload
+every status change
+every notification
+every role restriction
+
+Test:
+network failure
+database offline
+duplicate request
+expired session
+invalid token
+invalid upload
+invalid date
+invalid salary
+duplicate application
+
+Responsive test:
+360
+390
+768
+1024
+1280
+1440
+1920
+
+Check:
+no horizontal overflow
+no clipped content
+no missing icons
+no broken images
+no console errors
+no unnecessary console warnings
+no 404 assets
+no dead buttons
+no vague validation
+no accidental data loss
+no inaccessible controls
+
+====================================================
+52. BUILD / RELEASE GATE
+====================================================
+
+Before final delivery run:
+
+npm install
+npm run lint
+npm test
+npm run build
+
+Backend:
+startup test
+database connection test
+seed test
+
+Frontend:
+production build
+
+Browser:
+major route smoke test
+
+Repository:
+git status
+verify .env is not tracked
+verify node_modules is not tracked
+verify uploads are not tracked
+
+====================================================
+53. ABSOLUTE COMPLETION RULE
+====================================================
+
+Do not say:
+
+"Project completed"
+
+unless:
+- install passes
+- backend starts
+- frontend starts
+- database connects
+- seed succeeds
+- tests pass
+- production build passes
+- major user flows work
+- role authorization works
+- responsive checks pass
+- no critical console errors remain
+
+If anything fails:
+show:
+
+FILE
+LINE
+PROBLEM
+ROOT CAUSE
+FIX
+RETEST RESULT
+
+Do not hide failed tests.
+
+Do not guess.
+
+====================================================
+54. DEVELOPMENT ORDER
+====================================================
+
+Build in this exact order:
+
+PHASE 1:
+Repository + version pinning
+
+PHASE 2:
+Frontend shell + design system
+
+PHASE 3:
+Backend foundation + logging
+
+PHASE 4:
+MongoDB connection + health check + doctor
+
+PHASE 5:
+Schemas/models/indexes
+
+PHASE 6:
+Authentication
+
+PHASE 7:
+Candidate profile
+
+PHASE 8:
+Photo + resume uploads
+
+PHASE 9:
+Jobs
+
+PHASE 10:
+Search/filter/pagination
+
+PHASE 11:
+Applications
+
+PHASE 12:
+Recruiter workspace
+
+PHASE 13:
+Interviews
+
+PHASE 14:
+Notifications
+
+PHASE 15:
+Real-time messaging
+
+PHASE 16:
+Reports
+
+PHASE 17:
+Admin
+
+PHASE 18:
+Security hardening
+
+PHASE 19:
+Testing
+
+PHASE 20:
+Two-pass QA
+
+PHASE 21:
+GitHub/CI
+
+PHASE 22:
+Deployment documentation
+
+====================================================
+55. HOW TO WORK
+====================================================
+
+Do NOT generate everything in one giant response.
+
+For each phase:
+
+1. inspect current code
+2. explain what is being changed
+3. implement
+4. run checks
+5. fix errors
+6. verify imports
+7. verify API contract
+8. verify database model
+9. verify UI state
+10. verify role permissions
+11. test responsive behaviour
+12. only then continue
+
+Never overwrite working code unnecessarily.
+
+Never create duplicate components.
+
+Never create duplicate routes.
+
+Never create duplicate models.
+
+Never leave hidden TODO functionality.
+
+====================================================
+56. FINAL OUTPUT
+====================================================
+
+At completion generate:
+
+1. complete repository
+2. README
+3. architecture docs
+4. database docs
+5. API docs
+6. setup docs
+7. troubleshooting docs
+8. testing docs
+9. deployment docs
+10. QA report
+
+Final status must be one of:
+
+VERIFIED
+or
+PARTIALLY VERIFIED
+
+Never falsely claim VERIFIED.
+
+START WITH PHASE 1 ONLY.

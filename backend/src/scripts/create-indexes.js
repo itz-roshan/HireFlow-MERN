@@ -1,0 +1,21 @@
+import '../config/env.js';
+import { connectDB } from '../config/db.js';
+import mongoose from 'mongoose';
+import '../models/User.js';
+import '../models/Company.js';
+import '../models/Job.js';
+import '../models/Application.js';
+import '../models/SavedJob.js';
+import '../models/Interview.js';
+import '../models/Notification.js';
+import '../models/Conversation.js';
+import '../models/Message.js';
+import '../models/Report.js';
+import '../models/AuditLog.js';
+import '../models/Category.js';
+import '../models/Skill.js';
+await connectDB();
+for (const modelName of mongoose.modelNames())
+    await mongoose.model(modelName).createIndexes();
+console.log('✓ HireFlow database indexes are synchronized.');
+await mongoose.disconnect();

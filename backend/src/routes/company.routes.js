@@ -1,0 +1,12 @@
+import { Router } from 'express';
+import { requireAuth, requireRole } from '../middleware/auth.js';
+import { imageUpload } from '../middleware/upload.js';
+import * as c from '../controllers/company.controller.js';
+const r = Router();
+r.get('/', c.list);
+r.get('/mine/profile', requireAuth, requireRole('RECRUITER'), c.getMine);
+r.put('/mine', requireAuth, requireRole('RECRUITER'), c.save);
+r.post('/mine/logo', requireAuth, requireRole('RECRUITER'), imageUpload.single('logo'), c.uploadLogo);
+r.get('/:id/jobs', c.jobs);
+r.get('/:id', c.getOne);
+export default r;

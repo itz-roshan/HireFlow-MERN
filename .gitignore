@@ -1,0 +1,20 @@
+node_modules/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+.vscode/
+dist/
+coverage/
+backend/uploads/resumes/*
+!backend/uploads/resumes/.gitkeep
+backend/uploads/images/*
+!backend/uploads/images/.gitkeep
+
+# Allow development upload directory structure but ignore uploaded files
+!backend/uploads/
+!backend/uploads/images/
+!backend/uploads/resumes/
+!backend/uploads/images/.gitkeep
+!backend/uploads/resumes/.gitkeep

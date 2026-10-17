@@ -1,0 +1,31 @@
+HIREFLOW — LOCAL DEMO LOGIN NOTES
+================================
+
+Use these demo credentials in the local development project.
+The login ID is the email address.
+
+1) JOB SEEKER
+   ID / Email : user@hireflow.local
+   Password   : User@12345
+
+2) RECRUITER
+   ID / Email : recruiter@hireflow.local
+   Password   : Recruiter@12345
+
+3) ADMIN
+   ID / Email : admin@hireflow.local
+   Password   : Admin@12345
+
+IMPORTANT
+---------
+- These are development/demo accounts, not real production accounts.
+- The accounts are created by the backend seed script.
+- If these accounts do not exist in your local MongoDB database, run `npm run seed` from the project root to seed them.
+- WARNING: The seed script clears/recreates development collections before adding demo data. Back up any local data you need before running it.
+- Never use these demo credentials in production.
+
+LOCAL URLS (default)
+--------------------
+Frontend : http://localhost:5173
+Backend  : http://localhost:5000
+Health   : http://localhost:5000/api/health

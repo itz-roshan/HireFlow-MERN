@@ -1,0 +1,12 @@
+import { Router } from 'express';
+import { requireAuth, requireRole } from '../middleware/auth.js';
+import * as c from '../controllers/application.controller.js';
+const r = Router();
+r.use(requireAuth);
+r.post('/', requireRole('JOB_SEEKER'), c.apply);
+r.get('/check/:jobId', requireRole('JOB_SEEKER'), c.checkMine);
+r.get('/mine', requireRole('JOB_SEEKER'), c.mine);
+r.patch('/:id/withdraw', requireRole('JOB_SEEKER'), c.withdraw);
+r.get('/recruiter', requireRole('RECRUITER'), c.recruiter);
+r.patch('/:id/status', requireRole('RECRUITER'), c.status);
+export default r;

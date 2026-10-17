@@ -1,0 +1,15 @@
+import { Router } from 'express';
+import { requireAuth, requireRole, optionalAuth } from '../middleware/auth.js';
+import { validate } from '../middleware/validate.js';
+import { jobSchema } from '../validators/job.js';
+import * as c from '../controllers/job.controller.js';
+const r = Router();
+r.get('/', c.list);
+r.get('/featured', c.featured);
+r.get('/mine', requireAuth, requireRole('RECRUITER'), c.mine);
+r.get('/:id', optionalAuth, c.one);
+r.post('/', requireAuth, requireRole('RECRUITER'), validate(jobSchema), c.create);
+r.put('/:id', requireAuth, requireRole('RECRUITER'), validate(jobSchema), c.update);
+r.patch('/:id/publish', requireAuth, requireRole('RECRUITER'), c.togglePublish);
+r.delete('/:id', requireAuth, requireRole('RECRUITER'), c.remove);
+export default r;
