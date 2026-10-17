@@ -14,11 +14,21 @@ export async function connectDB() {
         }
         console.log('✓ MongoDB connected and indexes ready');
         return mongoose.connection;
-    }
-    catch (error) {
-        const clean = new Error('MongoDB is not reachable. Start MongoDB or check MONGODB_URI.');
-        clean.code = 'DB_UNAVAILABLE';
+        } catch (error) {
+        console.error("MongoDB connection diagnostic:", {
+            name: error?.name,
+            code: error?.code,
+            message: error?.message,
+            cause: error?.cause?.message
+        });
+
+        const clean = new Error(
+            "MongoDB is not reachable. Check the preceding diagnostic log."
+        );
+
+        clean.code = "DB_UNAVAILABLE";
         clean.cause = error;
+
         throw clean;
     }
 }
