@@ -8,12 +8,12 @@ export const signRefresh = p => jwt.sign(p, env.refreshSecret, { expiresIn: env.
 export const verifyAccess = t => jwt.verify(t, env.jwtSecret);
 export const verifyRefresh = t => jwt.verify(t, env.refreshSecret);
 export function setCookies(res, a, r) {
-    const common = { httpOnly: true, sameSite: 'lax', secure: env.nodeEnv === 'production' };
+    const common = { httpOnly: true, sameSite: env.nodeEnv === 'production' ? 'none' : 'lax', secure: env.nodeEnv === 'production' };
     res.cookie(ACCESS, a, { ...common, maxAge: 30 * 60 * 1000 });
     res.cookie(REFRESH, r, { ...common, maxAge: 7 * 24 * 60 * 60 * 1000 });
 }
 export function clearCookies(res) {
-    const common = { httpOnly: true, sameSite: 'lax', secure: env.nodeEnv === 'production' };
+    const common = { httpOnly: true, sameSite: env.nodeEnv === 'production' ? 'none' : 'lax', secure: env.nodeEnv === 'production' };
     res.clearCookie(ACCESS, common);
     res.clearCookie(REFRESH, common);
 }
