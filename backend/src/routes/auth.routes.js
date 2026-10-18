@@ -1,6 +1,17 @@
+import {
+    register,
+    login,
+    me,
+    logout,
+    refresh,
+    changePassword,
+    forgotPassword,
+    resetPassword,
+    socketToken
+} from '../controllers/auth.controller.js';
 import { Router } from 'express';
 import rateLimit from 'express-rate-limit';
-import { register, login, me, logout, refresh, changePassword, forgotPassword, resetPassword } from '../controllers/auth.controller.js';
+// import { register, login, me, logout, refresh, changePassword, forgotPassword, resetPassword } from '../controllers/auth.controller.js';
 import { requireAuth } from '../middleware/auth.js';
 const r = Router();
 const authLimiter = rateLimit({
@@ -15,6 +26,7 @@ r.post('/login', authLimiter, login);
 r.post('/forgot-password', authLimiter, forgotPassword);
 r.post('/reset-password', authLimiter, resetPassword);
 r.get('/me', requireAuth, me);
+r.get('/socket-token', requireAuth, socketToken);
 r.post('/logout', requireAuth, logout);
 r.post('/refresh', refresh);
 r.patch('/password', requireAuth, changePassword);
