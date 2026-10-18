@@ -1,15 +1,10 @@
 
-import { API_URL } from '../api/client';
-
-const configuredApiOrigin = /^https?:\/\//i.test(API_URL)
-  ? API_URL.replace(/\/api\/?$/, '')
-  : '';
-
-export const API_ORIGIN = (
-  configuredApiOrigin ||
+const MEDIA_BASE = (
   import.meta.env.VITE_MEDIA_URL ||
   'https://hireflow-mern.onrender.com'
-).replace(/\/$/, '');
+).replace(/\/+$/, '');
+
+export const API_ORIGIN = MEDIA_BASE;
 
 export function mediaUrl(value) {
   if (!value) return '';
@@ -19,5 +14,5 @@ export function mediaUrl(value) {
   }
 
   const path = value.startsWith('/') ? value : `/${value}`;
-  return `${API_ORIGIN}${path}`;
+  return `${MEDIA_BASE}${path}`;
 }
