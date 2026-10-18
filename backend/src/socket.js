@@ -10,22 +10,54 @@ function cookieValue(header, name) {
 }
 export function attachSocket(server) {
     const io = new Server(server, { cors: { origin: env.clientUrl, credentials: true } });
-    io.use(async (socket, next) => {
-        try {
-            const token = cookieValue(socket.handshake.headers.cookie, ACCESS);
-            if (!token)
-                throw new Error('Unauthorized');
-            const payload = verifyAccess(token);
-            const user = await User.findById(payload.sub).select('_id name role status sessionVersion');
-            if (!user || user.status !== 'ACTIVE' || (payload.sv ?? 0) !== (user.sessionVersion ?? 0))
-                throw new Error('Unauthorized');
-            socket.user = { sub: String(user._id), name: user.name, role: user.role };
-            next();
+    
+io.use(async (socket, next) => {
+    try {
+        const socketToken =
+            typeof socket.handshake.auth?.token === 'string'
+                ? socket.handshake.auth.token
+                : '';
+
+        const cookieToken = cookieValue(
+            socket.handshake.headers.cookie,
+            ACCESS
+        );
+
+        const token = socketToken || cookieToken;
+
+        if (!token) {
+            throw new Error('Unauthorized');
         }
-        catch {
-            next(new Error('Unauthorized'));
+
+        const payload = verifyAccess(token);
+
+        if (socketToken && payload.purpose !== 'socket') {
+            throw new Error('Unauthorized');
         }
-    });
+
+        const user = await User.findById(payload.sub)
+            .select('_id name role status sessionVersion');
+
+        if (
+            !user ||
+            user.status !== 'ACTIVE' ||
+            (payload.sv ?? 0) !== (user.sessionVersion ?? 0)
+        ) {
+            throw new Error('Unauthorized');
+        }
+
+        socket.user = {
+            sub: String(user._id),
+            name: user.name,
+            role: user.role
+        };
+
+        next();
+    } catch {
+        next(new Error('Unauthorized'));
+    }
+});
+
     io.on('connection', (socket) => {
         socket.join(`user:${socket.user.sub}`);
         socket.on('conversation:join', async (conversationId) => {
