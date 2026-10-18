@@ -44,7 +44,17 @@ export async function register(req, res) {
         passwordHash: await bcrypt.hash(data.password, 12),
         role: data.role
     });
-    export async function socketToken(req, res) {
+    
+    if (data.role === 'RECRUITER' && data.companyName) {
+        await Company.create({
+            name: data.companyName,
+            slug: `${data.companyName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${String(user._id).slice(-6)}`,
+            owner: user._id
+        });
+    }
+    return ok(res, { user: await issue(res, user) }, 'Account created', 201);
+}
+export async function socketToken(req, res) {
     const user = req.user;
 
     const token = signAccess({
@@ -56,15 +66,6 @@ export async function register(req, res) {
     });
 
     return ok(res, { token }, 'Socket token created');
-}
-    if (data.role === 'RECRUITER' && data.companyName) {
-        await Company.create({
-            name: data.companyName,
-            slug: `${data.companyName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${String(user._id).slice(-6)}`,
-            owner: user._id
-        });
-    }
-    return ok(res, { user: await issue(res, user) }, 'Account created', 201);
 }
 export async function login(req, res) {
     const data = loginSchema.parse(req.body);
