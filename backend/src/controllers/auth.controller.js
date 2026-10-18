@@ -44,6 +44,19 @@ export async function register(req, res) {
         passwordHash: await bcrypt.hash(data.password, 12),
         role: data.role
     });
+    export async function socketToken(req, res) {
+    const user = req.user;
+
+    const token = signAccess({
+        sub: String(user._id),
+        role: user.role,
+        name: user.name,
+        sv: user.sessionVersion || 0,
+        purpose: 'socket'
+    });
+
+    return ok(res, { token }, 'Socket token created');
+}
     if (data.role === 'RECRUITER' && data.companyName) {
         await Company.create({
             name: data.companyName,
