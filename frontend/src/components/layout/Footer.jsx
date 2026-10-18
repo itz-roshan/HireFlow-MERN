@@ -22,7 +22,7 @@ export default function Footer() {
             </div>
         </div>
         <div className="container footer-bottom">
-            <span>© 2026 HireFlow</span>
+            <span>itz-roshan © 2026 HireFlow</span>
             <span>Connect. Hire. Grow.</span>
         </div>
     </footer>);
