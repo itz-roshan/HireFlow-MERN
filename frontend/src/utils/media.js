@@ -1,9 +1,23 @@
+
 import { API_URL } from '../api/client';
-export const API_ORIGIN = API_URL.replace(/\/api(?:\/?)$/, '');
+
+const configuredApiOrigin = /^https?:\/\//i.test(API_URL)
+  ? API_URL.replace(/\/api\/?$/, '')
+  : '';
+
+export const API_ORIGIN = (
+  configuredApiOrigin ||
+  import.meta.env.VITE_MEDIA_URL ||
+  'https://hireflow-mern.onrender.com'
+).replace(/\/$/, '');
+
 export function mediaUrl(value) {
-    if (!value)
-        return '';
-    if (/^https?:\/\//i.test(value))
-        return value;
-    return `${API_ORIGIN}${value.startsWith('/') ? '' : '/'}${value}`;
+  if (!value) return '';
+
+  if (/^https?:\/\//i.test(value)) {
+    return value;
+  }
+
+  const path = value.startsWith('/') ? value : `/${value}`;
+  return `${API_ORIGIN}${path}`;
 }
