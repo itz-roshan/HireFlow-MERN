@@ -52,6 +52,8 @@ export default function MessagesPage() {
             setActive(found);
     }, [requestedConversationId, list, active?._id]);
     useEffect(() => {
+        const onSocketInitFailed = () => setSocketStatus('offline');
+window.addEventListener('hireflow:socket-init-failed', onSocketInitFailed);
         if (!socket) {
             setSocketStatus('connecting');
             return undefined;
