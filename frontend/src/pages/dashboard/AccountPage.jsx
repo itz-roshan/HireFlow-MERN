@@ -105,6 +105,27 @@ export default function AccountPage() {
             setAvatarBusy(false);
         }
     };
+    
+const removeAvatar = async () => {
+    if (!user?.avatar) return;
+
+    setAvatarBusy(true);
+    setToast('');
+
+    try {
+        await api.delete('/profile/avatar');
+        await refreshMe();
+        setToast('Profile photo removed.');
+    } catch (error) {
+        setToast(
+            error.response?.data?.message ||
+            'Could not remove photo'
+        );
+    } finally {
+        setAvatarBusy(false);
+    }
+};
+
     const changePassword = async (event) => {
         event.preventDefault();
         if (password.newPassword.length < 8)
@@ -146,7 +167,7 @@ export default function AccountPage() {
             </div>
         </div>
         <section className="profile-overview panel">
-            <ProfileAvatarUploader user={user} onUpload={uploadAvatar} busy={avatarBusy}/>
+             <ProfileAvatarUploader     user={user}     onUpload={uploadAvatar}     onRemove={removeAvatar}     busy={avatarBusy} />
             <div className="profile-overview-copy">
                 <div className="eyebrow"><ShieldCheck size={14}/> {user.role.replace('_', ' ')}</div>
                 <h2>
